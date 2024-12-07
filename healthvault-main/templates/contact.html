@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .contact-section {
+            margin: 20px 0;
+        }
+        .contact-section button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            text-align: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background-color: #71AFFF;
+            color: white;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        .contact-section button:hover {
+            background-color: #0056b3;
+        }
+        .contact-content {
+            display: none;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+            margin-bottom: 10px;
+        }
+
+    </style>
+    <script>
+        function toggleContact(index) {
+            const sections = document.querySelectorAll('.contact-content');
+            sections.forEach((section, idx) => {
+                if (idx === index) {
+                    section.style.display = section.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Contact Us</h2>
+
+    <!-- Contact Sections -->
+    <div class="contact-section">
+        <button onclick="toggleContact(0)">Customer Support</button>
+        <div class="contact-content">
+            <p>If you need help with your account or have general inquiries, contact our customer support team at <strong>support@medicalcost.com</strong> or call <strong>1-800-555-1234</strong>.</p>
+        </div>
+    </div>
+    <div class="contact-section">
+        <button onclick="toggleContact(1)">Billing Department</button>
+        <div class="contact-content">
+            <p>For questions about billing or invoices, email us at <strong>billing@medicalcost.com</strong> or call <strong>1-800-555-5678</strong>.</p>
+        </div>
+    </div>
+    <div class="contact-section">
+        <button onclick="toggleContact(2)">Technical Support</button>
+        <div class="contact-content">
+            <p>Having technical issues? Reach out to our technical support team at <strong>techsupport@medicalcost.com</strong> or call <strong>1-800-555-7890</strong>.</p>
+        </div>
+    </div>
+    <div class="contact-section">
+        <button onclick="toggleContact(3)">Feedback</button>
+        <div class="contact-content">
+            <p>We value your feedback! Share your thoughts with us at <strong>feedback@medicalcost.com</strong>.</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+{%endblock%}

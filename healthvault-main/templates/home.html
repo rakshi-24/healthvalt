@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://img.freepik.com/premium-vector/abstract-medical-background-with-hexagons-pattern_120542-355.jpg?semt=ais_hybrid') no-repeat center center fixed; /* Replace with your medical-related image URL */
+            background-size: cover;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar img {
+            height: 50px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: auto;
+        }
+
+        .navbar a:hover {
+            color: #0056b3;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: calc(100vh - 70px); /* Full height minus navbar height */
+            padding: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <!-- Logo -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/HealthVault_logo.svg" alt="Health Vault"> <!-- Replace with your logo -->
+        <!-- Login button -->
+        <a href="/login">Login</a>
+    </div>
+
+    <div class="content">
+        <h1>Welcome to the Medical Cost Analysis App</h1>
+        <p>Analyze healthcare data, predict medical costs, and gain insights.</p>
+
+        <!-- Cards -->
+        <div class="card-container">
+            <div class="card">
+                <img src="https://helendipity.wordpress.com/wp-content/uploads/2022/03/graphs.jpg?w=510" alt="Features Icon"> <!-- Replace with relevant icon -->
+                <h3>Feature 1</h3>
+                <p>Explore detailed datasets to gain insights into patient demographics and costs.</p>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/50" alt="Analysis Icon"> <!-- Replace with relevant icon -->
+                <h3>Feature 2</h3>
+                <p>Use interactive dashboards to analyze medical cost trends across regions.</p>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/50" alt="Prediction Icon"> <!-- Replace with relevant icon -->
+                <h3>Feature 3</h3>
+                <p>Predict future medical expenses with our advanced analytics tools.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

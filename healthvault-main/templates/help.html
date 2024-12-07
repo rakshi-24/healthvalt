@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+
+{% block title %}Help{% endblock %}
+
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Cost Help</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+        .faq {
+            margin: 20px 0;
+        }
+        .faq button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            text-align: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background-color: #71AFFF;
+            color: white;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        .faq button:hover {
+            background-color: #0056b3;
+        }
+        .faq-content {
+            display: none;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+            margin-bottom: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, button {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 {
+            margin: 0;
+        }
+        .modal-header button {
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .modal-header button:hover {
+            background: darkred;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .action-buttons button {
+            margin-right: 5px;
+        }
+    </style>
+    <script>
+        let editingIndex = null; // Track the index of the row being edited
+
+        // Toggle FAQ visibility
+        function toggleFaq(index) {
+            const contents = document.querySelectorAll('.faq-content');
+            contents.forEach((content, idx) => {
+                if (idx === index) {
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+        }
+
+        // Show or hide the modal
+        function toggleModal() {
+            const modal = document.getElementById("modal");
+            const overlay = document.getElementById("modal-overlay");
+            const isModalVisible = modal.style.display === "block";
+            modal.style.display = isModalVisible ? "none" : "block";
+            overlay.style.display = isModalVisible ? "none" : "block";
+        }
+
+        // Save form data to localStorage and display it in the table
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            const message = document.getElementById("message").value;
+
+            let storedData = JSON.parse(localStorage.getItem('formData')) || [];
+
+            if (editingIndex !== null) {
+                storedData[editingIndex] = { name, phone, message };
+                editingIndex = null; // Reset editing index
+            } else {
+                storedData.push({ name, phone, message });
+            }
+
+            localStorage.setItem('formData', JSON.stringify(storedData));
+
+            displayTableData();
+            clearForm();
+        }
+
+        // Populate form for editing
+        function editData(index) {
+            const storedData = JSON.parse(localStorage.getItem('formData'));
+            const { name, phone, message } = storedData[index];
+
+            document.getElementById("name").value = name;
+            document.getElementById("phone").value = phone;
+            document.getElementById("message").value = message;
+
+            editingIndex = index; // Set the index for editing
+            toggleModal(); // Close the modal
+        }
+
+        // Delete data from localStorage
+        function deleteData(index) {
+            if (confirm("Are you sure you want to delete this entry?")) {
+                let storedData = JSON.parse(localStorage.getItem('formData'));
+                storedData.splice(index, 1);
+                localStorage.setItem('formData', JSON.stringify(storedData));
+                displayTableData();
+                toggleModal();
+            }
+        }
+
+        // Display stored form data in the table
+        function displayTableData() {
+            const tableBody = document.getElementById("table-body");
+            tableBody.innerHTML = "";
+
+            const storedData = JSON.parse(localStorage.getItem('formData')) || [];
+
+            storedData.forEach((data, index) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${data.name}</td>
+                    <td>${data.phone}</td>
+                    <td>${data.message}</td>
+                    <td class="action-buttons">
+                        <button onclick="editData(${index})">Edit</button>
+                        <button onclick="deleteData(${index})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Clear the form
+        function clearForm() {
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("message").value = "";
+        }
+
+        window.onload = function () {
+            displayTableData();
+        };
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Medical Cost Help Page</h2>
+
+    <!-- FAQ Section -->
+    <div class="faq">
+        <button onclick="toggleFaq(0)">What factors influence medical costs?</button>
+        <div class="faq-content">
+            <p>Medical costs are influenced by factors such as age, BMI, smoking status, region, and pre-existing conditions.</p>
+        </div>
+    </div>
+    <div class="faq">
+        <button onclick="toggleFaq(1)">How is BMI calculated?</button>
+        <div class="faq-content">
+            <p>BMI is calculated by dividing a person's weight in kilograms by the square of their height in meters.</p>
+        </div>
+    </div>
+    <div class="faq">
+        <button onclick="toggleFaq(2)">What regions are used in medical cost analysis?</button>
+        <div class="faq-content">
+            <p>Regions typically include Northeast, Northwest, Southeast, and Southwest.</p>
+        </div>
+    </div>
+    <div class="faq">
+        <button onclick="toggleFaq(3)">How do smoking habits affect medical costs?</button>
+        <div class="faq-content">
+            <p>Smoking habits can significantly increase medical costs due to higher risks of chronic diseases.</p>
+        </div>
+    </div>
+
+    <!-- Additional Help Form -->
+    <h3>Need More Help?</h3>
+    <form onsubmit="handleSubmit(event)">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+        <label for="message">Your Query:</label>
+        <textarea id="message" name="message" placeholder="Enter your question or query" rows="5" required></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+
+</div>
+
+<!-- Modal for displaying table -->
+<div id="modal" class="modal">
+    <div class="modal-header">
+        <h3>Submitted Queries</h3>
+        <button onclick="toggleModal()">Close</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Your Query</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- Data will be populated here -->
+        </tbody>
+    </table>
+</div>
+<div id="modal-overlay" class="modal-overlay" onclick="toggleModal()"></div>
+
+</body>
+</html>
+
+{% endblock %}

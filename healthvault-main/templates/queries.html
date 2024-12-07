@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submitted Queries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .action-buttons button {
+            margin-right: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        // Function to display stored form data in the table
+        function displayTableData() {
+            const tableBody = document.getElementById("table-body");
+            tableBody.innerHTML = "";
+
+            const storedData = JSON.parse(localStorage.getItem('formData')) || [];
+
+            storedData.forEach((data, index) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${data.name}</td>
+                    <td>${data.phone}</td>
+                    <td>${data.message}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        window.onload = function () {
+            displayTableData();
+        };
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Submitted Queries</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Your Query</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- Data will be populated here -->
+        </tbody>
+    </table>
+    <br>
+    <!-- Back to Main Page Button -->
+    <button><a href="{{ url_for('index') }}">Back to Main Page</a></button>
+</div>
+
+</body>
+</html>
