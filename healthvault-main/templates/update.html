@@ -3,32 +3,69 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Patient</title>
+    <style>
+        body {
+            background-image: url('https://img.freepik.com/premium-photo/health-insurance-concept-reduce-medical-expenses-hand-flip-wood-cube-with-icon-healthcare-medical-coin-wood-background-copy-space_52701-34.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+        }
 
-<h1>update task</h1>
-<form method="POST" enctype="application/x-www-form-urlencoded">
-    <label for="name">name:</label>
-    <input type="text" id="name" name="name" value="{{patient.name}}" required><br><br>
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
 
-    <label for="age">age:</label>
-    <input type="text" id="age" name="age" value="{{ patient.age}}" required><br><br>
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    <label for="sex">sex:</label>
-    <input type="text" id="sex" name="sex" value="{{patient.sex}}" required><br><br>
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100px;
+        }
 
-    <label for="bmi">bmi:</label>
-    <input type="text" id="bmi" name="bmi" value="{{ patient.bmi}}" required><br><br>
+        button:hover {
+            background-color: #45a049;
+        }
 
-    <label for="children">children:</label>
-    <input type="text" id="children" name="children" value="{{patient.children}}" required><br><br>
-
-    <label for="charges">charges:</label>
-    <input type="text" id="charges" name="charges" value="{{patient.charges}}" required><br><br>
-
-    <label for="region">region:</label>
-    <input type="text" id="region" name="region" value="{{patient.region}}" required><br><br>
-
-
-    <input type="submit" value="update"> <a href="/"> home</a>
-</form>
+        a {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Patient</h1>
+        <form method="POST" action="{{ url_for('update', id=patient.id) }}">
+            <input type="text" name="name" value="{{ patient.name }}" required>
+            <input type="number" name="age" value="{{ patient.age }}" required>
+            <input type="text" name="sex" value="{{ patient.sex }}" required>
+            <input type="number" step="0.01" name="bmi" value="{{ patient.bmi }}" required>
+            <input type="number" name="children" value="{{ patient.children }}" required>
+            <input type="number" step="0.01" name="charges" value="{{ patient.charges }}" required>
+            <input type="text" name="region" value="{{ patient.region }}" required>
+            <button type="submit">Update</button>
+        </form>
+        <a href="{{ url_for('index') }}">Back to Index</a>
+    </div>
+</body>
+</html>
 
 {% endblock %}

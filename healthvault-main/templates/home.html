@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Medical Cost Analysis App</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background: url('https://img.freepik.com/premium-vector/abstract-medical-background-with-hexagons-pattern_120542-355.jpg?semt=ais_hybrid') no-repeat center center fixed; /* Replace with your medical-related image URL */
+            background: url('https://img.freepik.com/premium-vector/abstract-medical-background-with-hexagons-pattern_120542-355.jpg?semt=ais_hybrid') no-repeat center center fixed;
             background-size: cover;
             color: #333;
         }
 
         .navbar {
-            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 10px 20px;
             display: flex;
             align-items: center;
@@ -32,11 +32,26 @@
             color: #007bff;
             font-size: 18px;
             font-weight: bold;
-            margin-left: auto;
+            margin-left: 5px;
         }
 
         .navbar a:hover {
             color: #0056b3;
+        }
+
+        .navbar button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .navbar button:hover {
+            background-color: #0056b3;
         }
 
         .content {
@@ -45,7 +60,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            height: calc(100vh - 70px); /* Full height minus navbar height */
+            height: calc(100vh - 70px);
             padding: 20px;
         }
 
@@ -67,12 +82,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
         }
 
         .card img {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
             margin-bottom: 15px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .card h3 {
@@ -84,14 +106,19 @@
             font-size: 16px;
             color: #555;
         }
+
+        .card p:last-child {
+            margin-top: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="navbar">
         <!-- Logo -->
         <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/HealthVault_logo.svg" alt="Health Vault"> <!-- Replace with your logo -->
-        <!-- Login button -->
-        <a href="/login">Login</a>
+        <button onclick="window.location.href='/login'">Login</button>
+        <button onclick="window.location.href='/register'">Register</button>
     </div>
 
     <div class="content">
@@ -102,18 +129,21 @@
         <div class="card-container">
             <div class="card">
                 <img src="https://helendipity.wordpress.com/wp-content/uploads/2022/03/graphs.jpg?w=510" alt="Features Icon"> <!-- Replace with relevant icon -->
-                <h3>Feature 1</h3>
-                <p>Explore detailed datasets to gain insights into patient demographics and costs.</p>
+                <h3>Interactive Dashboard with Data Visualization</h3>
+                <p>Features a dashboard with charts and graphs for data insights.</p>
+                <p>Offers valuable data insights, visual appeal, and real-time updates for effective decision-making.</p>
             </div>
             <div class="card">
-                <img src="https://via.placeholder.com/50" alt="Analysis Icon"> <!-- Replace with relevant icon -->
-                <h3>Feature 2</h3>
-                <p>Use interactive dashboards to analyze medical cost trends across regions.</p>
+                <img src="https://docpulse.com/wp-content/uploads/2024/01/Benefits-of-using-a-Digital-patient-management-system.jpg" alt="Patient Management Icon"> <!-- Replace with relevant icon -->
+                <h3>Comprehensive Patient Management</h3>
+                <p>Allows users to add, update, and delete detailed patient records.</p>
+                <p>Maintains organized patient data, offers personalized management, and provides an intuitive interface for easy use.</p>
             </div>
             <div class="card">
-                <img src="https://via.placeholder.com/50" alt="Prediction Icon"> <!-- Replace with relevant icon -->
-                <h3>Feature 3</h3>
-                <p>Predict future medical expenses with our advanced analytics tools.</p>
+                <img src="https://www.shutterstock.com/image-photo/businessman-login-security-system-and-260nw-2283826265.jpg" alt="Security Icon"> <!-- Replace with relevant icon -->
+                <h3>Secure User Authentication and Role Management</h3>
+                <p>Implements secure login and role management using Flask-Login.</p>
+                <p>Ensures enhanced security, role-based access (admin vs. user), and a user-friendly experience.</p>
             </div>
         </div>
     </div>

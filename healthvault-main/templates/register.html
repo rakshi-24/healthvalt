@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Register</title>
     <style>
         body {
             margin: 0;
@@ -17,14 +17,14 @@
             align-items: center;
             height: 100vh;
         }
-        .login-container {
+        .register-container {
             background-color: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             width: 350px;
         }
-        .login-container h2 {
+        .register-container h1 {
             margin-bottom: 25px;
             text-align: center;
             color: #333;
@@ -48,7 +48,7 @@
             border-color: #007bff;
             outline: none;
         }
-        .login-button {
+        .register-button {
             width: 100%;
             padding: 12px;
             background-color: #007bff;
@@ -59,7 +59,7 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        .login-button:hover {
+        .register-button:hover {
             background-color: #0056b3;
         }
         .nav-links {
@@ -82,13 +82,13 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
+    <div class="register-container">
+        <h1>Register</h1>
         <div class="nav-links">
             <a href="/">Home</a>
-            <a href="/register">Register</a>
+            <a href="/login">Login</a>
         </div>
-        <form method="POST" action="/login">
+        <form method="POST" action="/register">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" required>
@@ -97,7 +97,7 @@
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" required>
             </div>
-            <button type="submit" class="login-button">Login</button>
+            <button type="submit" class="register-button">Register</button>
         </form>
         {% if error %}
         <p class="error-message">{{ error }}</p>
