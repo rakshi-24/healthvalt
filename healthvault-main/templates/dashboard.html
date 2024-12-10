@@ -20,10 +20,12 @@
             margin: 0;
         }
 
-        .container {
+        .container {.container {
             max-width: 1200px;
             margin: auto;
             padding: 10px;
+        }
+
         }
 
         h2 {
@@ -36,7 +38,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            gap: 20px;
+            gap: 30px;
         }
 
         .chart-card {
@@ -44,7 +46,7 @@
             max-width: 48%;
             background: #fff;
             border-radius: 10px;
-            padding: 20px;
+            padding: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -231,7 +233,7 @@
             type: 'bar',
             data: {
                 labels: Object.keys(chargesByAgeGroup),
-                datasets: [{ data: Object.values(chargesByAgeGroup), backgroundColor: '#2196f3' }]
+                datasets: [{ data: Object.values(chargesByAgeGroup), backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#f44336'] }]
             }
         });
     </script>
