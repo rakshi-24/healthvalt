@@ -1,243 +1,271 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Advanced Dashboard{% endblock %}
 
 {% block content %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patients Dashboard</title>
-    <style>
-        /* General Styles */
-        body {
+<style>
+   body {
             background-image: url('https://img.freepik.com/premium-photo/health-insurance-concept-reduce-medical-expenses-hand-flip-wood-cube-with-icon-healthcare-medical-coin-wood-background-copy-space_52701-34.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             height: 100vh;
             margin: 0;
-        }
+        }1
 
-        .container {.container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 10px;
-        }
+    .container {
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
 
-        }
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .charts-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
 
-        /* Chart Styles */
-        .charts-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 30px;
-        }
+    }
 
+    .chart-card {
+        flex: 1;
+        height: 450px;
+        max-width: 48%;
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-sizing: border-box;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chart-title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
         .chart-card {
-            flex: 1;
-            max-width: 48%;
-            background: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            margin-bottom: 15px;
         }
+    }
 
-        .chart-title {
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .chart-card {
-                max-width: 100%;
-            }
-        }
-
-        /* Table Styles */
-        .table-container {
-            margin-top: 30px;
-            overflow-x: auto;
-            max-width: 1200px;
+    .table-container {
+        margin-top: 30px;
+        overflow-x: auto;
+        max-width: 600px;
             margin: 50px auto;
-            padding: 20px;
             background: #fff;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 16px;
+        text-align: left;
+    }
 
-        th, td {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
 
-        th {
-            background-color: #f4f4f4;
-        }
+    th {
+        background-color: #f4f4f4;
+    }
 
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Patients Dashboard</h2>
-        <div class="charts-container">
-            <!-- Age Distribution -->
-            <div class="chart-card">
-                <div class="chart-title">Age Distribution</div>
-                <canvas id="ageChart"></canvas>
-            </div>
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>
 
-            <!-- Charges by Region -->
-            <div class="chart-card">
-                <div class="chart-title">Total Charges by Region</div>
-                <canvas id="regionChargesChart"></canvas>
-            </div>
-
-            <!-- BMI Distribution -->
-            <div class="chart-card">
-                <div class="chart-title">BMI Distribution</div>
-                <canvas id="bmiChart"></canvas>
-            </div>
-
-            <!-- Charges Over Age -->
-            <div class="chart-card">
-                <div class="chart-title">Charges by Age Group</div>
-                <canvas id="chargesByAgeChart"></canvas>
-            </div>
+<div class="container">
+    <h2> Patients Dashboard</h2>
+    <div class="charts-container">
+        <div class="chart-card">
+            <div class="chart-title">Age Distribution</div>
+            <canvas id="ageChart" width="400" height="400"></canvas>
         </div>
-
-        <div class="table-container">
-            <h3>Patient Data</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Sex</th>
-                        <th>BMI</th>
-                        <th>Children</th>
-                        <th>Charges ($)</th>
-                        <th>Region</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for patient in content %}
-                    <tr>
-                        <td>{{ patient.name }}</td>
-                        <td>{{ patient.age }}</td>
-                        <td>{{ patient.sex }}</td>
-                        <td>{{ patient.bmi }}</td>
-                        <td>{{ patient.children }}</td>
-                        <td>{{ patient.charges }}</td>
-                        <td>{{ patient.region }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="chart-card">
+            <div class="chart-title">Total Charges by Region</div>
+            <canvas id="chargesChart" width="400" height="400"></canvas>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">BMI Distribution</div>
+            <canvas id="bmiChart" width="400" height="400"></canvas>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">Charges Over Age</div>
+            <canvas id="chargesOverAgeChart" width="400" height="400"></canvas>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const patients = {{ content | safe }};
+    <div class="table-container">
+        <h3>Patient Data</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Sex</th>
+                    <th>BMI</th>
+                    <th>Children</th>
+                    <th>Charges</th>
+                    <th>Region</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in content %}
+                <tr>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.age }}</td>
+                    <td>{{ patient.sex }}</td>
+                    <td>{{ patient.bmi }}</td>
+                    <td>{{ patient.children }}</td>
+                    <td>{{ patient.charges }}</td>
+                    <td>{{ patient.region }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
-        // Utility functions for grouping and summing data
-        const groupBy = (data, key) =>
-            data.reduce((acc, obj) => {
-                const group = obj[key];
-                if (!acc[group]) acc[group] = [];
-                acc[group].push(obj);
-                return acc;
-            }, {});
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const patient = {{ content | safe }};
 
-        const sumBy = (data, key) => data.reduce((sum, obj) => sum + obj[key], 0);
+    // Utility: Gradient generator
+    function createGradient(ctx, colorStart, colorEnd) {
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, colorStart);
+        gradient.addColorStop(1, colorEnd);
+        return gradient;
+    }
 
-        // Age Distribution
-        const ageGroups = { '0-20': 0, '21-40': 0, '41-60': 0, '61+': 0 };
-        patients.forEach(({ age }) => {
-            if (age <= 20) ageGroups['0-20']++;
-            else if (age <= 40) ageGroups['21-40']++;
-            else if (age <= 60) ageGroups['41-60']++;
-            else ageGroups['61+']++;
-        });
+    // Age Distribution Chart
+    const ageCtx = document.getElementById('ageChart').getContext('2d');
+    const ageGroups = { '0-20': 0, '21-40': 0, '41-60': 0, '61+': 0 };
+    patient.forEach(p => {
+        const age = p.age;
+        if (age <= 20) ageGroups['0-20']++;
+        else if (age <= 40) ageGroups['21-40']++;
+        else if (age <= 60) ageGroups['41-60']++;
+        else ageGroups['61+']++;
+    });
+    new Chart(ageCtx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(ageGroups),
+            datasets: [{
+                label: 'Patients',
+                data: Object.values(ageGroups),
+                backgroundColor: createGradient(ageCtx, '#4caf50', '#2196f3'),
+                borderColor: '#2196f3',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { tooltip: { enabled: true }, legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
 
-        new Chart(document.getElementById('ageChart'), {
-            type: 'bar',
-            data: {
-                labels: Object.keys(ageGroups),
-                datasets: [{ data: Object.values(ageGroups), backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#f44336'] }]
-            }
-        });
+    // Total Charges by Region Chart
+    const chargesCtx = document.getElementById('chargesChart').getContext('2d');
+    const regions = ['northeast', 'northwest', 'southeast', 'southwest'];
+    const regionCharges = { northeast: 0, northwest: 0, southeast: 0, southwest: 0 };
+    patient.forEach(p => { regionCharges[p.region] += p.charges; });
+    new Chart(chargesCtx, {
+        type: 'doughnut',
+        data: {
+            labels: regions,
+            datasets: [{
+                label: 'Total Charges',
+                data: Object.values(regionCharges),
+                backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' }, tooltip: { enabled: true } }
+        }
+    });
 
-        // Charges by Region
-        const regions = groupBy(patients, 'region');
-        const regionCharges = Object.keys(regions).map(region => sumBy(regions[region], 'charges'));
+    // BMI Distribution Chart (Changed to Pie chart)
+    const bmiCtx = document.getElementById('bmiChart').getContext('2d');
+    const bmiCategories = { Underweight: 0, Normal: 0, Overweight: 0, Obese: 0 };
+    patient.forEach(p => {
+        const bmi = p.bmi;
+        if (bmi < 18.5) bmiCategories['Underweight']++;
+        else if (bmi <= 24.9) bmiCategories['Normal']++;
+        else if (bmi <= 29.9) bmiCategories['Overweight']++;
+        else bmiCategories['Obese']++;
+    });
+    new Chart(bmiCtx, {
+        type: 'pie', // Changed from 'polarArea' to 'pie'
+        data: {
+            labels: Object.keys(bmiCategories),
+            datasets: [{
+                data: Object.values(bmiCategories),
+                backgroundColor: ['#8bc34a', '#ffeb3b', '#ff9800', '#f44336']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' }, tooltip: { enabled: true } }
+        }
+    });
 
-        new Chart(document.getElementById('regionChargesChart'), {
-            type: 'pie',
-            data: {
-                labels: Object.keys(regions),
-                datasets: [{ data: regionCharges, backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56'] }]
-            }
-        });
-
-        // BMI Distribution
-        const bmiCategories = { Underweight: 0, Normal: 0, Overweight: 0, Obese: 0 };
-        patients.forEach(({ bmi }) => {
-            if (bmi < 18.5) bmiCategories.Underweight++;
-            else if (bmi <= 24.9) bmiCategories.Normal++;
-            else if (bmi <= 29.9) bmiCategories.Overweight++;
-            else bmiCategories.Obese++;
-        });
-
-        new Chart(document.getElementById('bmiChart'), {
-            type: 'pie',
-            data: {
-                labels: Object.keys(bmiCategories),
-                datasets: [{ data: Object.values(bmiCategories), backgroundColor: ['#8bc34a', '#ffeb3b', '#ff9800', '#f44336'] }]
-            }
-        });
-
-        // Charges by Age Group
-        const chargesByAgeGroup = Object.keys(ageGroups).reduce((acc, group) => {
-            acc[group] = patients
-                .filter(({ age }) =>
-                    (group === '0-20' && age <= 20) ||
-                    (group === '21-40' && age <= 40) ||
-                    (group === '41-60' && age <= 60) ||
-                    (group === '61+' && age > 60))
-                .reduce((sum, { charges }) => sum + charges, 0);
-            return acc;
-        }, {});
-
-        new Chart(document.getElementById('chargesByAgeChart'), {
-            type: 'bar',
-            data: {
-                labels: Object.keys(chargesByAgeGroup),
-                datasets: [{ data: Object.values(chargesByAgeGroup), backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#f44336'] }]
-            }
-        });
-    </script>
-</body>
-</html>
+    // Charges Over Age Chart
+    const chargesOverAgeCtx = document.getElementById('chargesOverAgeChart').getContext('2d');
+    const chargesOverAge = { '0-20': 0, '21-40': 0, '41-60': 0, '61+': 0 };
+    patient.forEach(p => {
+        const age = p.age;
+        const ageGroup = (age <= 20) ? '0-20' : (age <= 40) ? '21-40' : (age <= 60) ? '41-60' : '61+';
+        chargesOverAge[ageGroup] += p.charges;
+    });
+    new Chart(chargesOverAgeCtx, {
+        type: 'line',
+        data: {
+            labels: Object.keys(chargesOverAge),
+            datasets: [{
+                label: 'Total Charges',
+                data: Object.values(chargesOverAge),
+                borderColor: '#2196f3',
+                backgroundColor: createGradient(chargesOverAgeCtx, '#2196f3', '#ff9800'),
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { tooltip: { enabled: true }, legend: { position: 'top' } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+</script>
 
 {% endblock %}
