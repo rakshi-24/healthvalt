@@ -266,4 +266,4 @@ if __name__ == '__main__':
         db.create_all()  # Create the database tables if they don't exist
         ensure_is_active_column()  # Ensure the 'is_active' column is present
 
-    app.run(host='127.0.0.1', port=5003, debug=True)
+    app.run(debug=True)
